@@ -3,11 +3,12 @@ var jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 var createQuestion = (req, res) => {
-  if (req.header.token == null) {
+  if (req.headers.token == null) {
     res.send({msg: 'You Must Login First'})
   } else {
     var decoded = jwt.verify(req.headers.token, process.env.SECRET_KEY)
     models.create({
+      title: req.body.title,
       author: req.body.author,
       content: req.body.content,
       answer_id: [],
@@ -34,9 +35,10 @@ var getAllQuestion = (req, res) => {
 }
 
 var deleteQuestion = (req, res) => {
-  if (req.header.token == null) {
+  if (req.headers.token == null) {
     res.send({msg: 'If You Want Delete this Question, You must Login First'})
   } else {
+    var decoded = jwt.verify(req.headers.token, process.env.SECRET_KEY)
     models.remove({
       _id: req.params.id
     })
