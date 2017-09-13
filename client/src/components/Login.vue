@@ -8,22 +8,17 @@
         <form>
           <div class="form-group">
             <div>
-              <input v-model="signup.username" type="text" class="form-control" placeholder="Username" required>
+              <input v-model="signin.username" type="text" class="form-control" placeholder="Username" required>
             </div>
           </div>
           <div class="form-group">
             <div>
-              <input v-model="signup.email" type="email" class="form-control" placeholder="Email" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <div>
-              <input v-model="signup.password" type="password" class="form-control" placeholder="Password" required>
+              <input v-model="signin.password" type="password" class="form-control" placeholder="Password" required>
             </div>
           </div>
           <div>
             <div class="col-sm-12"><br>
-              <button type="button" class="btn btn-primary" @click="register()" data-dismiss="modal">Sign Up</button>
+              <button type="button" class="btn btn-primary" @click="login()" data-dismiss="modal">Sign In</button>
             </div>
           </div>
         </form>
@@ -40,29 +35,20 @@ import axios from 'axios'
 export default{
   data () {
     return {
-      signup: {
+      signin: {
         username: '',
-        email: '',
         password: ''
       }
     }
   },
   methods: {
-    register () {
-      axios.post('http://localhost:3002/users/signup', {
-        username: this.signup.username,
-        email: this.signup.email,
-        password: this.signup.password
-      })
-      .then(result => {
-        console.log(result)
-        this.signup = {
-          username: '',
-          name: '',
-          email: '',
-          password: ''
-        }
-        alert('Sign Up Succes')
+    login () {
+      axios.post('http://localhost:3002/users/signin', this.signin)
+      .then(response => {
+        console.log('ini response data token', response.data.dataToken)
+        let token = response.data.dataToken
+        localStorage.setItem('token', token)
+        this.$router.push('/home')
       })
       .catch(err => {
         console.log(err)

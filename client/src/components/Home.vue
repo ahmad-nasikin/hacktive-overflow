@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="">
     <navbar></navbar>
-    <register></register>
+    <!-- <register></register> -->
   </div>
 </template>
 
