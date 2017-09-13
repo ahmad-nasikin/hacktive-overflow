@@ -34,15 +34,19 @@ var getAllQuestion = (req, res) => {
 }
 
 var deleteQuestion = (req, res) => {
-  models.remove({
-    _id: req.params.id
-  })
-  .then(result => {
-    res.send(result)
-  })
-  .catch(err => {
-    res.send(err)
-  })
+  if (req.header.token == null) {
+    res.send({msg: 'If You Want Delete this Question, You must Login First'})
+  } else {
+    models.remove({
+      _id: req.params.id
+    })
+    .then(result => {
+      res.send(result)
+    })
+    .catch(err => {
+      res.send(err)
+    })
+  }
 }
 
 module.exports = {
